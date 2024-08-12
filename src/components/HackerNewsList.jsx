@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import StoryCard from './StoryCard';
 import StoryCardSkeleton from './StoryCardSkeleton';
-import SearchBar from './SearchBar';
 
 const fetchTopStories = async () => {
   const response = await fetch('https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=100');
@@ -13,7 +12,6 @@ const fetchTopStories = async () => {
 };
 
 const HackerNewsList = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
   const { data, isLoading, error } = useQuery({
     queryKey: ['topStories'],
     queryFn: fetchTopStories,
@@ -21,17 +19,14 @@ const HackerNewsList = () => {
 
   if (error) return <div className="text-red-500">Error: {error.message}</div>;
 
-  const filteredStories = data?.hits.filter(story =>
-    story.title.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  const stories = data?.hits || [];
 
   return (
     <div className="container mx-auto px-4 pb-8">
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {isLoading
           ? Array(12).fill().map((_, index) => <StoryCardSkeleton key={index} />)
-          : filteredStories.map(story => <StoryCard key={story.objectID} story={story} />)
+          : stories.map(story => <StoryCard key={story.objectID} story={story} />)
         }
       </div>
     </div>
