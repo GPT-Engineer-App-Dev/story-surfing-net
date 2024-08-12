@@ -51,6 +51,17 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        stripe: {
+          purple: "#635bff",
+          blue: "#00d4ff",
+          "light-blue": "#7a73ff",
+          "dark-blue": "#0048e5",
+          "gradient-start": "#7a73ff",
+          "gradient-end": "#635bff",
+        },
+      },
+      backgroundImage: {
+        "stripe-gradient": "linear-gradient(45deg, var(--tw-gradient-stops))",
       },
       borderRadius: {
         lg: "var(--radius)",
